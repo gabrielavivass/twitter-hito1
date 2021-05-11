@@ -1,0 +1,62 @@
+
+<% if signed_in? %>
+  <%= render 'form', tweet: @tweet %>
+<% end %>
+
+<div class="container">
+  <h1>Tweets<i class="fab fa-twitter"></i></h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">User Name</th>
+        <th scope="col">Content</th>
+        <th scope="col">Photo</th>      
+        <th scope="col">Retweets</th>
+        <th scope="col">Like</th>
+        <th scope="col">Creation Time</th>
+        <th scope="col">Rt Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tweets.each do |tweet| %>
+        <tr>
+          <td><%= tweet.user.user_name %></td>
+          <td><%= tweet.content %></td>
+          <td><img src="<%= tweet.user&.user_photo %>"'width="60" height="60" class="rounded-circle mb-2" ></td>
+          <td><%= tweet.retweet %></td>
+          <td><%= tweet.likes.count %></td>
+          <td><%= link_to time_ago_in_words(tweet.created_at),tweet %></td>
+          <td><%= tweet.rt_ref %></td>
+        </tr>
+        <tr>
+          <td><%= link_to 'Show', tweet %></td>
+          <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+          <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>          
+          <td><%= link_to retweet_tweet_path(tweet), data: { confirm: 'do you want to retweet'}, method: :post do %>
+          <i class="fas fa-retweet fa-3x"></i>
+          <% end %>
+          </td>
+          <% if signed_in? %>
+            <% if like(tweet, current_user) %>
+              <td><%= link_to tweet_like_path(tweet,like(tweet, current_user)), method: :delete do %>
+                    <i class="fas fa-thumbs-up fa-3x"></i>
+                  <% end %>
+              </td>
+            <% else  %>
+              <td><%= link_to tweet_likes_path(tweet), method: :post do %>
+                    <i class="far fa-thumbs-up fa-3x"></i>
+                  <% end %>
+              </td>
+            <% end %>
+          <% end %>
+          <td><i class="far fa-clock fa-3x"></i></i></td>
+          <% if !tweet.rt_ref.nil? %>
+            <td><%= link_to "#{tweet.user.user_name} ha retweet...", tweet.retweet_ref  %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to_next_page @tweets, 'Show More Tweets' %>
+  <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
+</div>
