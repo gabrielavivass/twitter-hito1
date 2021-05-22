@@ -13,7 +13,7 @@ class TweetsController < ApplicationController
   end
 
   def retweet
-    redirect_to root_path, alert: 'no es posible hacer retweet' and return if @tweet.user == current_user
+    redirect_to root_path, alert: 'it is not possible to retweet' and return if @tweet.user == current_user
     retweeted = Tweet.new(content: @tweet.content)
     retweeted.user = current_user
     retweeted.rt_ref = @tweet.id
@@ -25,9 +25,9 @@ class TweetsController < ApplicationController
         @tweet.update(retweet: @tweet.retweet += 1)
       end
       
-      redirect_to root_path, notice: 'retweet ingresado con exito'
+      redirect_to root_path, notice: 'successfully entered'
     else
-      redirect_to root_path, alert: 'no es posible hacer retweet'
+      redirect_to root_path, alert: 'it is not possible to retweet'
     end 
   end
 

@@ -15,7 +15,7 @@ class Api::ApisController < ApplicationController
     def date
         first_date = params[:date1]
         second_date = params[:date2]
-        @tweets = Tweet.where(:created_at => first_date.. second_date) 
+        @tweets = Tweet.where("created_at >= :start_date AND created_at <= :end_date", {:start_date => params[:date1].to_date.beginning_of_day, :end_date => params[:date2].to_date.end_of_day} ) 
         render json: @tweets
     end
     
@@ -51,6 +51,6 @@ class Api::ApisController < ApplicationController
       end
   
       def tweet_params
-        params.require(:tweet).permit(:email, :password, :user_name, :tweet, :retweet )
+        params.require(:tweet).permit(:content, :user_id )
       end
 end

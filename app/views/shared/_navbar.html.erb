@@ -9,7 +9,8 @@
             
             <li><%= button_to 'Ingresar', new_user_session_path, :class => 'btn btn-primary mx-4' %></li>
             <li><%= button_to 'Registrarse', new_user_registration_path, method: :get, :class => 'btn btn-primary mx-4' %></li>
-            <li><%= button_to 'My Friends', friends_path, method: :get, :class => 'btn btn-primary mx-4' %></li>
+            <li><%= button_to 'Mis Amigos', friends_path, method: :get, :class => 'btn btn-primary mx-4' %></li>
+             <li><%= button_to 'Mi Perfil', edit_user_registration_path, method: :get, :class => 'btn btn-primary mx-4' %></li>
         <% end %>
     </ul>
     <% if user_signed_in?  %>
