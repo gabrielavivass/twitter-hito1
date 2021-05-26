@@ -29,9 +29,10 @@
       <div align="left" style="margin: 10px 0 ">
         <%= link_to "#{time_ago_in_words(tweet.created_at)} ago", tweet%> |
         <%= link_to 'Show', tweet %> |
-         
-        <%= link_to 'Edit', edit_tweet_path(tweet) %> |
-        <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %> |
+        <% if signed_in? && tweet.user == current_user %>
+          <%= link_to 'Edit', edit_tweet_path(tweet) %> |
+          <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %> |
+        <% end %>
         <%= link_to retweet_tweet_path(tweet), data: { confirm: 'Do you want retweet?' }, method: :post  do %> 
           <i class="fas fa-retweet"></i>
         <% end %>
